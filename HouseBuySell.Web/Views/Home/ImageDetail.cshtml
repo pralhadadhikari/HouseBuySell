@@ -1,0 +1,68 @@
+﻿<!-- Inside ImageDetail.cshtml -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%; /* Adjust width as needed */
+            height: 100vh; /* Adjust height as needed */
+            overflow: hidden;
+        }
+
+        #image {
+            max-width: 100%;
+            max-height: 100%;
+            transition: transform 0.5s ease; /* Add transition for smooth zoom effect */
+        }
+
+        
+
+    </style>
+    <title>Image Detail</title>
+</head>
+<body>
+    <button class="zoom-btn" id="zoom-in">Zoom In</button>
+    <button class="zoom-btn" id="zoom-out">Zoom Out</button>
+    <div id="container">
+        <img id="image" src="/@ViewData["ImagePath"]" alt="Image" style="width: 80%; height: 80%;">
+    </div>
+   
+    <script>
+        window.onload = function () {
+            const imageContainer = document.getElementById('container');
+            const image = document.getElementById('image');
+            const zoomInBtn = document.getElementById('zoom-in');
+            const zoomOutBtn = document.getElementById('zoom-out');
+
+            let scale = 1;
+
+            function updateZoom(deltaY) {
+                scale += deltaY * 0.01;
+                scale = Math.min(Math.max(0.2, scale), 4); // Limit scale between 0.5 and 2
+
+                image.style.transform = `scale(${scale})`;
+            }
+
+            imageContainer.addEventListener('wheel', function (event) {
+                event.preventDefault(); // Prevent default scroll behavior
+
+                const deltaY = event.deltaY;
+
+                updateZoom(deltaY);
+            });
+            zoomInBtn.addEventListener('click', function () {
+                updateZoom(100);
+            });
+
+            zoomOutBtn.addEventListener('click', function () {
+                updateZoom(-100);
+            });
+        };
+
+    </script>
+</body>
+</html>

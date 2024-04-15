@@ -1,0 +1,204 @@
+﻿@model HouseBuySell.Models.ViewModel.PropertyViewModel
+
+@{
+    ViewData["Title"] = "House Land Management"; //Browser tab title
+
+    <!-- Display Content Box Title of the page ADD/EDIT based on model value-->
+    if (Model.Id > 0)
+    {
+        ViewData["ContentBoxTitle"] = "Update House Land";
+    }
+    else
+    {
+        ViewData["ContentBoxTitle"] = "Add House Land";
+    }
+}
+<style>
+    .image-preview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .image-item {
+        position: relative;
+        width: 150px; /* Adjust the width as needed */
+        height: 150px; /* Adjust the height as needed */
+    }
+
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+    .image-wrapper {
+        position: relative;
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .delete-icon {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        color: red;
+        font-size: 18px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+</style>
+<form asp-action="AddEdit" class="form-default" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" class="form-control" />
+
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label asp-for="PropertyTypeId" class="control-label"></label>
+                <select asp-for="PropertyTypeId" class="form-control" asp-items="@(new SelectList(ViewBag.PropertyType, "Id", "ProprtyType"))">
+                    <option disabled selected>-- please select --</option>
+                </select>
+                <span asp-validation-for="PropertyTypeId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label asp-for="Features" class="control-label"></label>
+                <input asp-for="Features" class="form-control" />
+                <span asp-validation-for="Features" class="text-danger"></span>
+            </div>
+        </div>
+
+    </div>
+   
+    <div class="row">
+        <div class="col-3">
+            <div class="form-group ml-2">
+                <div class="image-uploaded">
+                    @if (!string.IsNullOrEmpty(Model?.ImageFullPath))
+                    {
+                        <img src="/@Model.ImageFullPath" class="img-thumbnail align-center" style="height:200px;width:195px;" onerror="this.src = '../images/user-icon.jpg';">
+                    }
+                    else
+                    {
+                        <img id="userPhoto" src="~/images/user-icon.jpg" class="img-thumbnail align-center " style="height:200px;width:195px;">
+                    }
+
+                </div>
+                <div class="input-group input-file mt-1">
+                    <label class="input-group-btn ">
+                        <span class="btn btn-large btn-primary">
+                           Upload Photo
+                            <input type="file" asp-for="PropertyPicture" class="form-control" onchange="readURL(this)" style="display: none;" />
+                            <span asp-validation-for="PropertyPicture" class="text-danger"></span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+           
+        </div>
+        
+
+  
+        <div class="col-9">
+            <div class="form-group no-bullets">
+                <label class="control-label">Upload Photos</label>
+                <input asp-for="AdditionalPropertyImage" id="ImageFiles" class="form-control" accept="image/*">
+                @if (Model.Id > 0)
+                {
+                    @if (Model.PropertyImageFilesFullPath.Count > 0)
+                    {
+                        <div class="image-preview">
+                            @for (int i = 0; i < Model.PropertyImageFilesFullPath.Count; i++)
+                            {
+                                <div class="image-item">
+                                    <a href="/@Model.PropertyImageFilesFullPath[i].Filepath" target="_blank">
+                                        <img src="/@Model.PropertyImageFilesFullPath[i].Filepath" alt="Image" class="img-thumbnail" />
+                                    </a>
+                                    <a href="@Url.Action("ImageFileDelete", "Property", new { Id = @Model.PropertyImageFilesFullPath[i].Id, PropertyId = Model.Id })" class="delete-icon">&times;</a>
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+
+
+        <div class="col-6 mt-4">
+            <div class="form-group">
+                <label class="check-box">
+                    <input type="checkbox" asp-for="IsActive">
+                    <span class="checked1"></span>
+                    <p class="terms" for="">Is Active</p>
+                </label>
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-6">
+            <a class="btn btn-medium btn-secondary float-left  " asp-action="Index">
+                Return
+            </a>
+        </div>
+        <div class="col-6">
+            @if (Model.Id > 0)
+            {
+                <button type="submit" class="mt-0 btn btn-medium btn-primary float-right">Update</button>
+            }
+            else
+            {
+                <button type="submit" class="mt-0 btn btn-medium btn-primary float-right">Add</button>
+            }
+
+        </div>
+    </div>
+</form>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#userPhoto').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+    }
+
+

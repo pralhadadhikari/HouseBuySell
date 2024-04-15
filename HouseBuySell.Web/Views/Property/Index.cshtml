@@ -1,0 +1,115 @@
+﻿@model IEnumerable<HouseBuySell.Models.Entity.Property>
+@{
+    ViewData["Title"] = "Propert Detail";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Propert Detail</h1>
+   
+</div>
+
+
+<style>
+    /* Apply border to the table */
+    #PripertyType {
+        border: 1px solid #dee2e6; /* Set border color */
+        width: 100%; /* Set table width to 100% */
+        margin-bottom: 1rem; /* Add margin bottom */
+        color: #212529; /* Default text color */
+        border-collapse: collapse; /* Collapse table borders */
+    }
+
+        /* Apply border to the table header */
+        #PripertyType th {
+            border: 1px solid #dee2e6;
+        }
+
+        /* Apply border to the table body */
+        #PripertyType td {
+            border: 1px solid #dee2e6;
+        }
+
+        #PripertyType.table {
+        }
+
+        /* Apply background color to table header */
+        #PripertyType thead tr {
+            background-color: gray;
+        }
+
+        /* Apply background color to table rows */
+        #PripertyType tbody tr {
+            background-color: beige;
+        }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <a class="btn btn-primary float-right" onclick="add()">Add New</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <table id="PripertyType" class="">
+            <thead>
+                <tr style="background-color:gray">
+                    <th> Property Type</th>
+                    <th> Location</th>
+                    <th> Price</th>                    
+                    <th> IsActive </th>
+                    <th>  </th>
+
+                </tr>
+            </thead>
+
+            @foreach (var items in Model)
+            {
+                <tbody>
+                    <tr style="background-color:beige">
+                        <td>
+                            @foreach (var PropertyTypes in ViewBag.PropertyType)
+                            {
+                                if (items.PropertyTypeId == PropertyTypes.Id)
+                                {
+                                    @PropertyTypes.ProprtyType
+                                }
+                            }
+                        </td>
+                        <td>
+                            @items.Location
+                        </td>
+                         <td>
+                            @items.Price
+                        </td>
+                        
+                        <td>
+                            @items.IsActive
+                        </td>
+                        <td><i class="fas fa-pen" onclick="edit('@items.Id')"></i></td>
+
+                    </tr>
+                </tbody>
+            }
+
+
+        </table>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+        });
+
+        function add() {
+            window.location.href = '/Property/AddEdit?Id=0';
+        }
+
+        function edit(itemId) {
+            window.location.href = '/Property/AddEdit?Id=' + itemId;
+        }
+
+    </script>
+}

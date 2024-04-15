@@ -1,0 +1,153 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h2>Create a new account.</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input asp-for="Input.Name" class="form-control" />
+                        <label asp-for="Input.Name"></label>
+                        <span asp-validation-for="Input.Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                        <label asp-for="Input.Email"></label>
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                        <label asp-for="Input.Password"></label>
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                        <label asp-for="Input.ConfirmPassword"></label>
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input asp-for="Input.PhoneNumber" class="form-control" />
+                        <label asp-for="Input.PhoneNumber"></label>
+                        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="check-box">
+                            <input type="checkbox" asp-for="Input.IsBroker" id="isbroker">
+                            <span class="checked1"></span>
+                            <p class="terms" for="">IsBroker</p>
+                        </label>
+                        <span asp-validation-for="Input.IsBroker" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-6 hideOfficeName">
+                    <div class="form-floating">
+                        <input asp-for="Input.OfficeName" class="form-control" />
+                        <label asp-for="Input.OfficeName"></label>
+                        <span asp-validation-for="Input.OfficeName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6 hideOfficeAddress">
+                    <div class="form-floating">
+                        <input asp-for="Input.OfficeAddress" class="form-control" />
+                        <label asp-for="Input.OfficeAddress"></label>
+                        <span asp-validation-for="Input.OfficeAddress" class="text-danger"></span>
+                    </div>
+                </div>               
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-6 hideOfficeNumber">
+                    <div class="form-floating">
+                        <input asp-for="Input.OfficeNumber" class="form-control" />
+                        <label asp-for="Input.OfficeNumber"></label>
+                        <span asp-validation-for="Input.OfficeNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-12">
+                    <button id="registerSubmit" type="submit" class="btn btn-lg btn-primary float-right">Register</button>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+    
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            $('.hideOfficeName').hide();
+            $('.hideOfficeAddress').hide();
+            $('.hideOfficeNumber').hide();
+
+        });
+       
+        $('#isbroker').change(function () {
+            hideshowbroker();
+        });
+
+        function hideshowbroker(){
+
+            if ($('#isbroker').prop('checked')) {
+                $('.hideOfficeName').show();
+                $('.hideOfficeAddress').show();
+                $('.hideOfficeNumber').show();
+
+            }
+            else {
+
+                $('.hideOfficeName').hide();
+                $('.hideOfficeAddress').hide();
+                $('.hideOfficeNumber').hide();
+            }
+
+
+
+        }
+
+    </script>
+
+
+}

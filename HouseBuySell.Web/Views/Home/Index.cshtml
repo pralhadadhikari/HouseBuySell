@@ -1,0 +1,308 @@
+﻿@model HouseBuySell.Models.ViewModel.PropertyViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+<style>
+    /* Modal styles */
+     #imageModal.modal {
+        display: none; /* Hide the modal by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scrolling if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        padding-top: 60px; /* Add padding to center the image vertically */
+        z-index: 1500;
+    }
+
+    /* Modal content */
+     #imageModal .modal-content {
+        margin: auto;
+        display: block;
+        max-width: 80%; /* Adjust maximum width as needed */
+        max-height: 80%; /* Adjust maximum height as needed */
+    }
+
+    /* Close button */
+    #imageModal .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #fff;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    #imageModal .close:hover,
+    #imageModal .close:focus {
+        color: #999;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+
+@*
+<div class="row text-center">
+    <div class="col-md-12 col-12">
+        <p style="font-size:30px;color:royalblue"><b>Property Buy Sell</b></p>
+    </div>
+</div>*@
+
+
+<form asp-action="Search" class="form-default" enctype="multipart/form-data">
+
+    <div class="row">
+        
+        <div class="col-12 col-sm-6 col-md-2">
+            <div class="form-group">
+               
+                <select asp-for="searchCriteria.propertytype" id="CategoryInfoId" class="form-control" asp-items="@(new SelectList(Model.PropertyTypes,"Id", "ProprtyType"))">
+                    <option selected>Property Type(All) </option>                    
+                    
+                </select>
+
+
+
+            </div>
+        </div>
+        <div class="col-6 col-sm-3 col-md-2">
+            <div class="form-group">
+                
+                <input placeholder="Location" asp-for="searchCriteria.location" class="form-control" />
+                <span asp-validation-for="searchCriteria.location" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <div class="form-group">
+               
+                <input placeholder="Lower Range" asp-for="searchCriteria.lprice" class="form-control" />
+                <span asp-validation-for="searchCriteria.lprice" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <div class="form-group">
+               
+                <input placeholder="Higher Range" asp-for="searchCriteria.hprice" class="form-control" />
+                <span asp-validation-for="searchCriteria.hprice" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <button type="submit" class="btn btn-primary float-left"><i class="fas fa-search"></i></button>
+        </div>
+
+    </div>
+</form>
+
+
+<div class="row">
+
+    @foreach (var item in Model.Properties)
+    {
+        <div class="col-md-3 col-12 mb-3">
+            <div class="card" onclick="detail(@item.Id)">
+
+                <div class="card-body text-center bg-primary">
+                    <div>
+                        <p style="font-size:20px;margin-top:-10px" class="card-text mt-2"><b>@item.PropertyTypeName</b></p>
+                    </div>
+                    <div style="position: relative;">
+                        <img src="/@item.ImageFullPath" class="card-img-top img-thumbnail align-center" style="height: 150px; width: 250px;" onerror="this.src = '../images/user-icon.jpg';">
+
+                    </div>
+                    <div>
+                        <p style="margin-bottom:-10px" class="card-text mt-2">Location: @item.Location</p>
+                        <p class="card-text mt-2" style="margin-bottom:-10px">Price:Rs. @item.Price</p>
+                    </div>
+                    <a class="btn btn-success btn-small bg-warning mt-3">View Detail</a>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div id="propertymodal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="background-color:#f2eee6">
+            <div class="modal-header">
+                <h5 class="modal-title">Property Detail</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*  <p id="propertytype" style="padding-top:-15px;font-size:20px;color:Red"></p>*@
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+
+                                <div class="card-body text-center">
+                                    <div>
+                                        <p style="font-size:20px;margin-top:-10px" id="propertytype" class="card-text mt-2"><b></b></p>
+                                    </div>
+                                    <div style="position: relative;">
+                                        <img id="image" class="card-img-top img-thumbnail align-center" style="height: 230px; width: 280px;" onerror="this.src = '../images/user-icon.jpg';">
+
+                                    </div>
+                                    <div>
+                                        <p style="margin-bottom:-10px" id="location" class="card-text mt-2"></p>
+                                        <p class="card-text mt-2" id="price" style="margin-bottom:-10px"></p>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            <p style="font-size:24px;"><b><u>Description</u></b></p>
+                            <div class="row">
+
+                                <p id="description"></p><br />
+
+
+                            </div>
+
+                            <p style="font-size:24px;"><b><u>Contact Detail</u></b></p>
+                            <div class="row">
+
+                                <p id="broker"></p><br />
+
+                                <p id="phone"></p><br />
+                                <p id="officename"></p><br />
+                                <p id="officenumber"></p><br />
+                                <p id="offlocation"></p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <p style="font-size:24px;"><b><u>More Pictures</u></b></p>
+                <div id="thumbnails">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="imageModal" class="modal">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <img id="modalImage" class="modal-content" src="" alt="">
+
+    <div class="modal-footer">
+
+        <button type="button" id="toggleModalBtn" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+</div>
+
+<script>
+    function detail(itemId) {
+
+
+        $.ajax({
+            url: '/api/Home/PropertyDetail',
+            data: { PropertyId: itemId },
+            method: 'Get',
+
+        }).done(function (data) {
+            console.log(data)
+            var proptype = data.propertyViewModel.propertyType.proprtyType;
+            var loc = data.propertyViewModel.location;
+            var price = data.propertyViewModel.price;
+            var imgurl = data.propertyViewModel.imageFullPath;
+            $('#propertytype').text('Property Type: ' + proptype);
+            $('#location').text('Location : ' + loc);
+            $('#price').text('Price: Rs. ' + price);
+            $('#image').text('data.propertyViewModel.imageFullPath');
+            $('#image').attr('src', imgurl);
+            $('#description').text(data.propertyViewModel.features);
+
+            $('#broker').text('Name : ' + data.user.name);
+            $('#phone').text('Contact No: ' + data.user.phoneNumber);
+            $('#officename').text('Office Name: ' + data.user.officeName);
+            $('#officenumber').text('Office Contact No: ' + data.user.officeNumber);
+            $('#offlocation').text('Office Address: ' + data.user.officeAddress);
+
+
+            var imageFiles = data.propertyViewModel.propertyImageFilesFullPath;
+
+            // Get the container element where thumbnails will be added
+            var thumbnailsContainer = document.getElementById('thumbnails');
+            thumbnailsContainer.innerHTML = '';
+
+            // Loop through the array of image file objects
+            imageFiles.forEach(function (imageFile) {
+                // Extract the filepath from the image file object
+                var imagePath = imageFile.filepath;
+
+                // Create a new thumbnail element
+                var thumbnail = document.createElement('img');
+
+                // Set the src attribute to the image file path
+                thumbnail.src = imagePath;
+
+                // Set additional attributes as needed (e.g., width, height, class, etc.)
+                thumbnail.setAttribute('class', 'thumbnail');
+                thumbnail.setAttribute('width', '100');
+                thumbnail.setAttribute('height', '100');
+                thumbnail.style.padding = '10px';
+
+                thumbnail.addEventListener('click', function () {
+                    var imageUrl = 'Home/ImageDetail?imagePath=' + encodeURIComponent(imagePath);
+
+                    // Navigate to the ImageDetail page
+                    window.open(imageUrl);
+                });
+
+                // Append the thumbnail to the thumbnails container
+                thumbnailsContainer.appendChild(thumbnail);
+            });
+
+
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            throw errorThrown;
+        });
+
+
+        $('#propertymodal').modal('show');
+
+
+
+
+
+    }
+
+    function openModal(imagePath) {
+        var modal = document.getElementById('imageModal');
+        var modalImage = document.getElementById('modalImage');
+
+        // Set the source of the modal image
+        modalImage.src = imagePath;
+
+        // Display the modal
+        modal.style.display = 'block';
+    }
+
+    // Initial call to add thumbnails
+    addThumbnails(data.propertyViewModel.propertyImageFilesFullPath);
+
+
+    $('#toggleModalBtn').click(function () {
+        $('#imageModal').toggle();
+    });
+</script>

@@ -1,0 +1,59 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags must come first in the head; any other head content must come after these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>bookingsystem: Login Page</title>
+        <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+        <!-- fontawesome css -->
+        <link href="~/lib/fontawesome-free-5.1.0-web/css/all.css" rel="stylesheet" />
+        <!-- app default style -->
+        <link rel="stylesheet" href="~/css/app.css">
+        <link rel="stylesheet" href="~/css/forms.css">
+</head>
+<body class="theme-1 login" style="background-color:lightslategrey; ">
+    <div class="container" >
+
+        <div class="row" >
+
+            <div class="col-12 col-sm-12 col-md-8 order-sm-2 order-md-1 order-2 d-flex align-items-center justify-content-center" style="height: 80vh">
+               
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-4 order-sm-1 order-md-2 order-1">
+                <header class="login-header">
+                    <div class="app-logo">
+                        <div class="row m-0">
+                            <div class="col font-weight-bold text-sm-center text-primary mt-2">
+                                <p class="text-light" style="font-size:25px;margin-bottom:-20px"><b> House Land Buy Sell  </b></p>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <div class="login-content">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /container -->
+   
+    
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+        <!-- Initialize Tooltip  -->
+       
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

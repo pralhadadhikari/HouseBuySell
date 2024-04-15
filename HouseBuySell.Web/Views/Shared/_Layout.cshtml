@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - House Land Buy Sell</title>
+    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    @*  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">*@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @*<link rel="stylesheet" href="~/HouseBuySell.Web.styles.css" asp-append-version="true" />*@
+    @* <link rel="stylesheet" href="~/css/app.css">*@
+    <link href="~/css/bootswatchtheme.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="~/css/icon-font.css">
+    <link href="~/lib/fontawesome-free-5.1.0-web/css/all.css" rel="stylesheet" />
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .wrapper {
+            min-height: 100%;
+            position: relative;
+            padding-bottom: 50px; /* Height of the footer */
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 50px; /* Height of the footer */
+            border-top: 1px solid #ccc;
+            text-align: center;
+            background-color: #f8f9fa;
+            z-index: 1000; /* Ensure footer is on top of other content */
+        }
+
+        main {
+            padding-bottom: 70px; /* Adjust this value as necessary */
+            min-height: calc(100vh - 50px); /* Adjust the total height of footer */
+            overflow-y: auto; /* Enable vertical scrolling if needed */
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/Home/Index">House Land Buy Sell</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarColor01">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                @if (User.HasClaim("IsBroker", "True"))
+                                {
+
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="PropertyType" asp-action="Index">Property Type</a>
+                                    </li>
+                                }
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Property" asp-action="Index">Property</a>
+                                </li>
+                            }
+                        </ul>
+                        <partial name="_LoginPartial" />
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main role="main" class="container pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - HouseBuySell.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

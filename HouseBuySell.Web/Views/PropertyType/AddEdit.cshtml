@@ -1,0 +1,76 @@
+﻿@model HouseBuySell.Models.Entity.PropertyType
+
+@{
+    ViewData["Title"] = "House Land Type Management"; //Browser tab title
+   
+    <!-- Display Content Box Title of the page ADD/EDIT based on model value-->
+    if (Model.Id > 0)
+    {
+        ViewData["ContentBoxTitle"] = "Update House Land Type";
+    }
+    else
+    {
+        ViewData["ContentBoxTitle"] = "Add House Land Type";
+    }
+}
+
+<form asp-action="AddEdit" class="form-default">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" class="form-control" />
+   
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label asp-for="ProprtyType" class="control-label"></label>
+                <input asp-for="ProprtyType" class="form-control" />
+                <span asp-validation-for="ProprtyType" class="text-danger"></span>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="row">
+
+
+        <div class="col-6 mt-4">
+            <div class="form-group">
+                <label class="check-box">
+                    <input type="checkbox" asp-for="IsActive">
+                    <span class="checked1"></span>
+                    <p class="terms" for="">Is Active</p>
+                </label>
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-6">
+            <a class="btn btn-medium btn-secondary float-left  " asp-action="Index">
+               Return
+            </a>
+        </div>
+        <div class="col-6">
+            @if (Model.Id > 0)
+            {
+                <button type="submit" class="mt-0 btn btn-medium btn-primary float-right">Update</button>
+            }
+            else
+            {
+                <button type="submit" class="mt-0 btn btn-medium btn-primary float-right">Add</button>
+            }
+
+        </div>
+    </div>
+</form>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            
+        });
+    </script>
+    }
+
+
