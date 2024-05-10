@@ -1,4 +1,4 @@
-﻿using HouseBuySell.Core.IRepository;
+﻿using HouseBuySell.Infrastructure.IRepository;
 using HouseBuySell.Infrastructure.Repository;
 using HouseBuySell.Models.Entity;
 using HouseBuySell.Models.ViewModel;

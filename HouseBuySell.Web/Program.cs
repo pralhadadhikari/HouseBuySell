@@ -4,7 +4,7 @@ using HouseBuySell.Web.Data;
 using HouseBuySell.Infrastructure;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using HouseBuySell.Infrastructure.Services;
-using HouseBuySell.Core.IRepository;
+using HouseBuySell.Infrastructure.IRepository;
 using HouseBuySell.Infrastructure.Repository.CRUD;
 using HouseBuySell.Infrastructure.Repository;
 using System.Configuration;
@@ -31,7 +31,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddDefaultTokenPro
 
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddTransient(typeof(ICrudService<>), typeof(CrudService<>));
 builder.Services.AddTransient<IPropertyTypeRepository, PropertyTypeRepository>();
@@ -61,11 +61,38 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await SeedIntialData.InitializeAsync(services);
+}
+
 // Configure the HTTP request pipeline.
+//void SeedDatabase(IApplicationBuilder app, IWebHostEnvironment env)
+//{
+//    // Other configuration
+
+//    // Seed initial data
+//    using (var scope = app.ApplicationServices.CreateScope())
+//    {
+//        var serviceProvider = scope.ServiceProvider;
+//        var roleManager = serviceProvider.GetRequiredService < RoleManager<IdentityRole>>();
+//        var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+//        SeedIntialData.Initialize(roleManager, userManager).Wait();
+//    }
+//}
+
+
+
+
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+//SeedDatabase();
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -76,5 +103,4 @@ app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.Run();

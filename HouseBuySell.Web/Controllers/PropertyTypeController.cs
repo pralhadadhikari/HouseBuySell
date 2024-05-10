@@ -1,4 +1,4 @@
-﻿using HouseBuySell.Core.IRepository;
+﻿using HouseBuySell.Infrastructure.IRepository;
 using HouseBuySell.Models.Entity;
 using HouseBuySell.Web.Models;
 using Microsoft.AspNetCore.Authorization;

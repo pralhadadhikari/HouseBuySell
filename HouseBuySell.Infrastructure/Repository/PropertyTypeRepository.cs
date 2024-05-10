@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using HouseBuySell.Core.IRepository;
+using HouseBuySell.Infrastructure.IRepository;
 using HouseBuySell.Infrastructure.Repository.CRUD;
 using HouseBuySell.Models.Entity;
 using HouseBuySell.Models.ViewModel;

@@ -1,4 +1,4 @@
-﻿using HouseBuySell.Core.IRepository;
+﻿using HouseBuySell.Infrastructure.IRepository;
 using HouseBuySell.Models.Entity;
 using HouseBuySell.Models.ViewModel;
 using HouseBuySell.Web.Models;
@@ -47,7 +47,6 @@ namespace HouseBuySell.Web.Controllers
 
             if (id > 0)
             {
-
                 propertyViewModel = new PropertyViewModel(await _propertyCrudService.GetAsync(id));
 
                 IEnumerable<PropertyFilesInfo> imageFilesInfo = new List<PropertyFilesInfo>();

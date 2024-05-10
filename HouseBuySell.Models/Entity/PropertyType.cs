@@ -9,10 +9,10 @@ namespace HouseBuySell.Models.Entity
 {
     public class PropertyType:BaseEntity
     {
-        public PropertyType()
-        {
-            this.Property = new HashSet<Property>();
-        }
+        //public PropertyType()
+        //{
+        //    this.Property = new HashSet<Property>();
+        //}
          
         public string ProprtyType { get; set; }        
         public bool IsActive { get; set; }

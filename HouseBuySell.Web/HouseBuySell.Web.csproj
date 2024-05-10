@@ -22,7 +22,6 @@
   </ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\HouseBuySell.Core\HouseBuySell.Core.csproj" />
 	  <ProjectReference Include="..\HouseBuySell.Infrastructure\HouseBuySell.Infrastructure.csproj" />
 	  <ProjectReference Include="..\HouseBuySell.Models\HouseBuySell.Models.csproj" />
 	</ItemGroup>
